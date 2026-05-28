@@ -1,58 +1,58 @@
-# DRAC 5 Monitor — Home Assistant Add-on
+# DRAC 5 Monitor — Add-on para Home Assistant
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-Home Assistant add-on to monitor and control Dell servers with **DRAC 5 (Remote Access Controller 5)** via IPMI over LAN.
+Add-on para Home Assistant para monitorar e controlar servidores Dell com **DRAC 5 (Remote Access Controller 5)** via IPMI over LAN.
 
-Designed for legacy Dell PowerEdge servers (e.g. 1950, 2950, 2900) where the DRAC 5 firmware has no further updates, the web interface is inaccessible due to old TLS, and modern iDRAC integrations (which require iDRAC 7/8 and the Redfish API) do not work.
-
----
-
-## Features
-
-- **Power switch** — turn the server on (IPMI `power on`) or off gracefully (IPMI `power soft`)
-- **Ambient temperature sensor** — reads the chassis ambient temperature in °C
-- **Fan speed sensors** — 16 RPM readings (FAN MOD 1A–4D)
-- **MQTT auto-discovery** — all entities appear automatically in Home Assistant
-- **Availability tracking** — entities go unavailable if the add-on stops
+Desenvolvido para servidores Dell PowerEdge legados (ex: 1950, 2950, 2900) onde o firmware do DRAC 5 não recebe mais atualizações, a interface web é inacessível por problemas de TLS antigo, e integrações modernas de iDRAC (que exigem iDRAC 7/8 e a API Redfish) não funcionam.
 
 ---
 
-## Requirements
+## Funcionalidades
 
-- Home Assistant OS (HAOS) or Supervised
-- Mosquitto MQTT broker add-on (or any accessible MQTT broker)
-- Network access from the HA host to the DRAC 5 IP on UDP port 623 (IPMI)
-- DRAC 5 credentials (default: `root` / `calvin`)
+- **Switch de energia** — liga o servidor (IPMI `power on`) ou desliga de forma segura (IPMI `power soft`)
+- **Sensor de temperatura ambiente** — lê a temperatura ambiente do chassi em °C
+- **Sensores de velocidade dos fans** — 16 leituras de RPM (FAN MOD 1A–4D)
+- **Auto-discovery MQTT** — todas as entidades aparecem automaticamente no Home Assistant
+- **Rastreamento de disponibilidade** — entidades ficam indisponíveis se o add-on parar
 
 ---
 
-## Installation
+## Requisitos
 
-1. In Home Assistant, go to **Settings → Add-ons → Add-on Store**
-2. Click the **⋮ menu** (top right) → **Repositories**
-3. Add the repository URL:
+- Home Assistant OS (HAOS) ou Supervised
+- Add-on Mosquitto MQTT Broker (ou qualquer broker MQTT acessível)
+- Acesso de rede do host do HA ao IP do DRAC 5 na porta UDP 623 (IPMI)
+- Credenciais do DRAC 5 (padrão Dell: `root` / `calvin`)
+
+---
+
+## Instalação
+
+1. No Home Assistant, acesse **Configurações → Add-ons → Loja de Add-ons**
+2. Clique no menu **⋮** (canto superior direito) → **Repositórios**
+3. Adicione a URL do repositório:
    ```
    https://github.com/rede-analista/addon-drac5-monitor
    ```
-4. Find **DRAC 5 Monitor** in the store and click **Install**
+4. Localize **DRAC 5 Monitor** na loja e clique em **Instalar**
 
 ---
 
-## Configuration
+## Configuração
 
-| Option | Default | Description |
-|--------|---------|-------------|
-| `ipmi_host` | `172.31.254.99` | IP address of the DRAC 5 |
-| `ipmi_user` | `root` | IPMI username |
-| `ipmi_password` | `calvin` | IPMI password |
-| `mqtt_host` | `core-mosquitto` | MQTT broker hostname |
-| `mqtt_port` | `1883` | MQTT broker port |
-| `mqtt_user` | `` | MQTT username (leave empty if not required) |
-| `mqtt_password` | `` | MQTT password (leave empty if not required) |
-| `poll_interval` | `30` | Sensor polling interval in seconds |
+| Opção | Padrão | Descrição |
+|-------|--------|-----------|
+| `ipmi_host` | `172.31.254.99` | Endereço IP do DRAC 5 |
+| `ipmi_user` | `root` | Usuário IPMI |
+| `ipmi_password` | `calvin` | Senha IPMI |
+| `mqtt_host` | `core-mosquitto` | Hostname do broker MQTT |
+| `mqtt_port` | `1883` | Porta do broker MQTT |
+| `mqtt_user` | `` | Usuário MQTT (deixar vazio se não necessário) |
+| `mqtt_password` | `` | Senha MQTT (deixar vazio se não necessário) |
+| `poll_interval` | `30` | Intervalo de leitura dos sensores em segundos |
 
-### Example configuration
+### Exemplo de configuração
 
 ```yaml
 ipmi_host: "192.168.1.50"
@@ -67,32 +67,32 @@ poll_interval: 30
 
 ---
 
-## Entities
+## Entidades
 
-All entities are grouped under the **Dell PowerEdge 1950** device in Home Assistant.
+Todas as entidades são agrupadas sob o dispositivo **Dell PowerEdge 1950** no Home Assistant.
 
-| Entity | Type | Description |
-|--------|------|-------------|
-| `switch.dell_poweredge_1950_power` | Switch | Power on / soft off |
-| `sensor.dell_poweredge_1950_ambient_temperature` | Sensor | Chassis ambient temperature (°C) |
-| `sensor.dell_poweredge_1950_fan_1a` … `fan_4d` | Sensor ×16 | Fan module RPM readings |
+| Entidade | Tipo | Descrição |
+|----------|------|-----------|
+| `switch.dell_poweredge_1950_power` | Switch | Liga / desliga (soft off) |
+| `sensor.dell_poweredge_1950_ambient_temperature` | Sensor | Temperatura ambiente do chassi (°C) |
+| `sensor.dell_poweredge_1950_fan_1a` … `fan_4d` | Sensor ×16 | Leituras de RPM dos módulos de fan |
 
-> **Note:** CPU temperature sensors are not available on DRAC 5 (reported as `ns` by IPMI).
+> **Observação:** sensores de temperatura da CPU não estão disponíveis no DRAC 5 (reportados como `ns` pelo IPMI).
 
 ---
 
-## Compatibility
+## Compatibilidade
 
-Tested on:
+Testado em:
 
-| Hardware | DRAC version | Firmware |
+| Hardware | Versão DRAC | Firmware |
 |----------|-------------|---------|
 | Dell PowerEdge 1950 III | DRAC 5 | 1.65 (Build 12.08.16) |
 
-Should also work on other PowerEdge models with DRAC 5 (e.g. 2950, 2900, 6950) as long as IPMI over LAN is enabled.
+Deve funcionar também em outros modelos PowerEdge com DRAC 5 (ex: 2950, 2900, 6950), desde que o IPMI over LAN esteja habilitado.
 
 ---
 
-## License
+## Licença
 
 [MIT](LICENSE) © Rede Analista
