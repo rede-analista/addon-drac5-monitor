@@ -71,11 +71,32 @@ poll_interval: 30
 
 Todas as entidades são agrupadas sob o dispositivo **Dell PowerEdge 1950** no Home Assistant.
 
+### Controle
+
 | Entidade | Tipo | Descrição |
 |----------|------|-----------|
-| `switch.dell_poweredge_1950_power` | Switch | Liga / desliga (soft off) |
+| `switch.dell_poweredge_1950_power` | Switch | Liga (`power on`) / desliga com segurança (`power soft`) |
+
+### Sensores
+
+| Entidade | Tipo | Descrição |
+|----------|------|-----------|
 | `sensor.dell_poweredge_1950_ambient_temperature` | Sensor | Temperatura ambiente do chassi (°C) |
-| `sensor.dell_poweredge_1950_fan_1a` … `fan_4d` | Sensor ×16 | Leituras de RPM dos módulos de fan |
+| `sensor.dell_poweredge_1950_fan_1a` … `fan_4d` | Sensor ×16 | Velocidade dos módulos de fan (RPM) |
+| `sensor.dell_poweredge_1950_event_log_count` | Sensor | Número total de eventos no log do sistema (SEL) |
+| `sensor.dell_poweredge_1950_last_event` | Sensor | Descrição do último evento registrado no SEL |
+
+### Sensores binários (falhas)
+
+| Entidade | Tipo | Descrição |
+|----------|------|-----------|
+| `binary_sensor.dell_poweredge_1950_cooling_fan_fault` | Binary sensor | Falha de resfriamento/fan detectada |
+| `binary_sensor.dell_poweredge_1950_drive_fault` | Binary sensor | Falha de disco detectada |
+| `binary_sensor.dell_poweredge_1950_power_overload` | Binary sensor | Sobrecarga de energia detectada |
+| `binary_sensor.dell_poweredge_1950_main_power_fault` | Binary sensor | Falha de energia principal |
+| `binary_sensor.dell_poweredge_1950_chassis_intrusion` | Binary sensor | Intrusão no chassi (tampa aberta) |
+| `binary_sensor.dell_poweredge_1950_ps_redundancy_lost` | Binary sensor | Redundância de fontes de alimentação perdida |
+| `binary_sensor.dell_poweredge_1950_fan_redundancy_lost` | Binary sensor | Redundância de fans perdida |
 
 > **Observação:** sensores de temperatura da CPU não estão disponíveis no DRAC 5 (reportados como `ns` pelo IPMI).
 

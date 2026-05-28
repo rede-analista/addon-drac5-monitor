@@ -1,6 +1,6 @@
 name: DRAC 5 Monitor
 description: Monitor and control Dell servers with DRAC 5 via IPMI. Exposes power switch and sensors (temperature, fans) to Home Assistant via MQTT auto-discovery.
-version: "1.0.0"
+version: "1.1.0"
 slug: drac5_monitor
 homeassistant: "2023.1.0"
 url: https://github.com/rede-analista/addon-drac5-monitor
